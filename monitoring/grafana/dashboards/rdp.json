@@ -1,0 +1,19 @@
+{
+  "title": "Robot Data Platform - Ingestion & Data Quality",
+  "uid": "rdp-overview",
+  "schemaVersion": 39,
+  "refresh": "10s",
+  "time": {"from": "now-1h", "to": "now"},
+  "panels": [
+    {"id": 1, "type": "stat", "title": "Bags ingested", "gridPos": {"x": 0, "y": 0, "w": 6, "h": 4},
+     "targets": [{"expr": "rdp_runs_ingested_total", "refId": "A"}]},
+    {"id": 2, "type": "stat", "title": "Messages ingested", "gridPos": {"x": 6, "y": 0, "w": 6, "h": 4},
+     "targets": [{"expr": "rdp_messages_ingested_total", "refId": "A"}]},
+    {"id": 3, "type": "timeseries", "title": "Anomalies by kind", "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8},
+     "targets": [{"expr": "sum by (kind) (rdp_anomalies_detected_total)", "legendFormat": "{{kind}}", "refId": "A"}]},
+    {"id": 4, "type": "timeseries", "title": "Ingest duration p95 (s)", "gridPos": {"x": 0, "y": 4, "w": 12, "h": 8},
+     "targets": [{"expr": "histogram_quantile(0.95, sum(rate(rdp_ingest_duration_seconds_bucket[5m])) by (le))", "refId": "A"}]},
+    {"id": 5, "type": "timeseries", "title": "API requests by status", "gridPos": {"x": 12, "y": 8, "w": 12, "h": 8},
+     "targets": [{"expr": "sum by (endpoint, status) (rdp_api_requests_total)", "legendFormat": "{{endpoint}} {{status}}", "refId": "A"}]}
+  ]
+}
